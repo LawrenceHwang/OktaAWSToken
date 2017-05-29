@@ -1,0 +1,11 @@
+# NUNIT
+*.VisualState.xml
+TestResult.xml
+
+# Local reference files
+*.nono
+*.config
+
+# Others
+*.tmp
+*.log
