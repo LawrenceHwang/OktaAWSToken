@@ -97,7 +97,8 @@ Without these resources, it'd take much longer to achieve the goal. Thank you Qu
 * Add parameter validation and error hanling in the OrgConfig.ps1
 * Create Pester tests for each
 * Connect to AppVeyor
-* Publish the module to PowerShell Gallery
+* Publish the module to PowerShell Gallery using CI/CD pipeline
+* Make sure the module works in PS6 core, too.
 
 ## NOTE
 Contributions very welcome! Any thought, suggestion, question or feedback? Please do feel free to send me a note by creating an issue or reach me on [twitter](https://twitter.com/CPoweredLion)
