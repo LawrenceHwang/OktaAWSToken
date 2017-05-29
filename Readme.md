@@ -14,7 +14,7 @@ The temporary credential has a default 60 minutes life. You can then use the inf
 
 ### PREREQUISITES
 * [AWSPowerShell module](https://aws.amazon.com/powershell/)
-* The idp entry urls: These are the URLs for the AWS apps within Okta. The apps are configured to provide access to AWS with the desired role. Your Okta admin should be able to provide the information. For example: https://organization.okta.com/home/aws/0muaa4998fDLMflMod0x7/888
+* The idp entry urls: These are the URLs for the AWS apps within Okta. The apps are configured to provide access to AWS with the desired role. Your Okta admin should be able to provide the information. For example: https://company.okta.com/home/aws/0muaa4998fDLMflMod0x7/888
 
 
 ## INSTALLATION
@@ -64,10 +64,17 @@ You should be able to get those information from your Okta login page or just as
 ```
 
 ## USAGE and EXAMPLE
+Once configuted, you can get the credential using the `Get-OktaAWSToken`
+1. Login
+![1. Login](https://github.com/LawrenceHwang/OktaAWSToken/blob/master/Media/login.PNG?raw=true)
+2. Select Account]
+![2. Select Account](https://github.com/LawrenceHwang/OktaAWSToken/blob/master/Media/selectaccount.PNG?raw=true)
+3. MFA Challenge
+![3. MFA Challenge](https://github.com/LawrenceHwang/OktaAWSToken/blob/master/Media/mfa.PNG?raw=true)
+4. Result
+![4. Result](https://github.com/LawrenceHwang/OktaAWSToken/blob/master/Media/full.png?raw=true)
 
-
-
-Or, simply pipe to `Set-AWSCredentials`.
+Or, you can pipe it to `Set-AWSCredentials`.
 ```
 Get-OktaAWSToken | Set-AWSCredentials
 ```
