@@ -19,14 +19,18 @@ The temporary credential has a default 60 minutes life. You can then use the inf
 
 ## INSTALLATION
 ```
-# First time module setup
+# First time (and also one time) module setup
   # Download the repository
   # Extract the OktaAWSToken folder to one of the $env:PSModulePath paths. For example: $env:USERPROFILE\Documents\WindowsPowerShell\Modules)
+
+  ## If you have PowerShell 5 or above, try this instead
+
+     Install-Module OktaAWSToken
 
 # Import the module
     Import-Module OktaAWSToken
 
-# Cmdlet exported by the module:
+# Function exported by the module:
     Get-OktaAWSToken
 ```
 
@@ -67,7 +71,7 @@ You should be able to get those information from your Okta login page or just as
 Once configuted, you can get the credential using the `Get-OktaAWSToken`
 1. Login
 ![1. Login](https://github.com/LawrenceHwang/OktaAWSToken/blob/master/Media/login.PNG?raw=true)
-2. Select Account]
+2. Select Account
 ![2. Select Account](https://github.com/LawrenceHwang/OktaAWSToken/blob/master/Media/selectaccount.PNG?raw=true)
 3. MFA Challenge
 ![3. MFA Challenge](https://github.com/LawrenceHwang/OktaAWSToken/blob/master/Media/mfa.PNG?raw=true)
