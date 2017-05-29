@@ -1,5 +1,5 @@
 # OktaAWSToken
-This is a quick and dirty PowerShell module to provide a programmatic way of retrieving temporary AWS credentials from STS [(Security Token Service)](http://docs.aws.amazon.com/STS/latest/APIReference/Welcome.html) when using federated login with [Okta](https://www.okta.com/) Idp with Multi-Factor Authentication (MFA). The following MFA options are supported and tested. The module also includes the password only authentication but never tested. Please give it a try and share your feedback.
+This PowerShell module provides a programmatic way of retrieving temporary AWS credentials from STS [(Security Token Service)](http://docs.aws.amazon.com/STS/latest/APIReference/Welcome.html) when using federated login with [Okta](https://www.okta.com/) Idp with Multi-Factor Authentication (MFA). The following MFA options are supported and tested. The module also includes the password only authentication but never tested. Please give it a try and share your feedback.
 
     * Okta Verify
     * Okta Verify - Push
