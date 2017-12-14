@@ -29,7 +29,7 @@ if (-not (test-path $PSScriptRoot\OktaAWSToken.config)) {
   }
   $prop = @{
     organizationurl = $org
-    accoount        = $accounts
+    account        = $accounts
   }
 
   $result = New-Object -TypeName psobject -Property $prop
