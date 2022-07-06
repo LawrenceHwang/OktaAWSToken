@@ -47,10 +47,19 @@ function GetSAML {
     [string]$APIUrl = "https://$orgurl/api/v1/authn"
     $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($cred.password)
     # Creating the Json object
-    $BodyCred = @{"username" = $cred.username; "password" = "$([System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR))"} | ConvertTo-Json
+    #$BodyCred = @{"username" = $cred.username; "password" = "$([System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR))"} | ConvertTo-Json
+    $BodyCred = [ordered]@{
+    username= $cred.username
+    password= "$([System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR))"
+    options= @{
+        multiOptionalFactorEnroll= $true
+        warnBeforePasswordExpired= $true
+    }
+} | ConvertTo-Json -Depth 10
   } # End begin
   process {
     try {
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
       $OktaSession = Invoke-WebRequest -Uri "$APIUrl" -Method Post -Body $BodyCred -ContentType "application/json" -SessionVariable okta -ErrorAction stop
     }
     catch {
@@ -90,10 +99,8 @@ function GetSAML {
         $MFAStatus = (ConvertFrom-Json  $MFAAuth.Content).status
         Start-Sleep 3
       } # end while
-
       $OneTimeToken = (ConvertFrom-Json  $MFAAuth.Content).sessiontoken
-
-      $AuthURI = "$($oktaaccount.appurl)?onetimetoken=$OneTimeToken"
+      $AuthURI = "$($oktaaccount.appurl)?onetimetoken=$OneTimeToken" 
       Write-Verbose "$AuthURI is: $AuthURI"
       <#
             The -UseBasicParsing here prevents the script from opening up extra browser session caused by DCOM parsing.
@@ -106,14 +113,16 @@ function GetSAML {
       Write-Output $SamlResponse
     } # End if
     elseif ($status -like 'SUCCESS') {
-      # Password auth. This part has not be validated.
-      $AuthURI = "$($oktaaccount.appurl)"
+      # Password auth. Updated to allow access without MFA (trusted locations).
+      $Content = ConvertFrom-json $OktaSession.Content 
+      $OneTimeToken = ($Content).sessiontoken
+      $AuthURI = "$($oktaaccount.appurl)?onetimetoken=$OneTimeToken"
       Write-Verbose "$AuthURI is: $AuthURI"
       <#
             The -UseBasicParsing here prevents the script from opening up extra browser session caused by DCOM parsing.
             However, the response isn't fully decoded in that case. Additional steps are taken for decoding.
         #>
-      $SamlAuth = Invoke-WebRequest -uri $AuthURI -SessionVariable okta -Body $BodyCred -ContentType "application/json" -UseBasicParsing
+      $SamlAuth = Invoke-WebRequest -uri $AuthURI -SessionVariable okta -UseBasicParsing
       $SamlResponse = $SamlAuth.inputfields | Where-Object name -like "saml*" | Select-Object -ExpandProperty value
       Write-Verbose "$SamlResponse is: $SamlResponse"
       $SamlResponse = $SamlResponse.Replace("&#x2b;", "+").Replace("&#x3d;", "=")
